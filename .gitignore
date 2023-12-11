@@ -119,3 +119,6 @@ ENV/
 
 .DS_Store
 account_module_user.dSYM
+
+# parameter files
+*.gguf
