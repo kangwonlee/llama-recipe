@@ -48,11 +48,12 @@ def get_batch(split):
     x, y = x.to(device), y.to(device)
     return x, y
 
-@torch.no_grad()
+@torch.no_grad() # we don't intend to back propagate
 def estimate_loss():
     # average of loss function across multiple batches
     # then it would be less noisy
     out = {}
+    # set model to evaluation mode
     model.eval()
     for split in ['train', 'val']:
         losses = torch.zeros(eval_iters)
@@ -61,6 +62,7 @@ def estimate_loss():
             logits, loss = model(X, Y)
             losses[k] = loss.item()
         out[split] = losses.mean()
+    # set model to training mode
     model.train()
     return out
 
