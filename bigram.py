@@ -12,7 +12,6 @@ eval_interval = 300
 learning_rate = 1e-2
 
 # if GPU available, use it
-# https://youtu.be/kCc8FmEb1nY&t=2341
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 eval_iters = 200
 # ------------
@@ -45,6 +44,7 @@ def get_batch(split):
     ix = torch.randint(len(data) - block_size, (batch_size,))
     x = torch.stack([data[i:i+block_size] for i in ix])
     y = torch.stack([data[i+1:i+block_size+1] for i in ix])
+    # GPU acceleration
     x, y = x.to(device), y.to(device)
     return x, y
 
