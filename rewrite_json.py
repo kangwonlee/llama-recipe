@@ -13,7 +13,10 @@ def main():
             if 'id' in cell:
                 del cell['id']
             if 'metadata' in cell:
-                if 'id' in cell['metadata']:
+                if (
+                    ('id' in cell['metadata']) and
+                    (cell['metadata']['id'] != "view-in-github")
+                ):
                     del cell['metadata']['id']
 
         with open(file, 'w') as f:
