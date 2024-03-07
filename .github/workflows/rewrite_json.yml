@@ -1,0 +1,27 @@
+name: rewrite json
+
+on:
+  push
+
+jobs:
+  rewrite:
+    name: rewrite json
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 1
+    steps:
+    - name: checkout
+      id: checkout
+      uses: actions/checkout@v3
+  
+    - name: rewrite json
+      id: rewrite
+      run: python rewrite_json.py
+    
+    - name: commit & push
+      id: commit
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message : rewrite json
+  
