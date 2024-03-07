@@ -70,15 +70,21 @@ def estimate_loss():
 class BigramLanguageModel(nn.Module):
 
     def __init__(self, vocab_size:int=len(chars), n_embd:int=32):
+        """
+        n_embd: the dimension of the embedding
+        """
         super().__init__()
         # each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
+        # a linear layer
         self.lm_head = nn.Linear(n_embd, vocab_size)
 
     def forward(self, idx, targets=None):
 
         # idx and targets are both (B,T) tensor of integers
-        logits = self.token_embedding_table(idx) # (B,T,C)
+        tok_emb = self.token_embedding_table(idx) # (B,T,C)
+        # dimension of following : (B,T,Vocab_Size)
+        logits = self.lm_head(tok_emb)
 
         if targets is None:
             loss = None
